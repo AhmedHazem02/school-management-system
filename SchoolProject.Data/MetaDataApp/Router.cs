@@ -26,5 +26,12 @@ namespace SchoolProject.Data.MetaDataApp
             public const string perfix = Rule + "Department";
             public const string GetById = perfix + "/{Id}";
         }
+
+        public static class AppUserRouting
+        {
+            public const string perfix = Rule + "AppUser";
+            public const string Create = perfix + "/create";
+        }
+
     }
 }
