@@ -31,6 +31,8 @@ namespace SchoolProject.Data.MetaDataApp
         {
             public const string perfix = Rule + "AppUser";
             public const string Create = perfix + "/create";
+            public const string List = perfix + "/List";
+            public const string GetUserByUserName = perfix + "/{UserName}";
         }
 
     }

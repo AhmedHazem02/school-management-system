@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using SchoolProject.Core.Features.User.Command.Models;
+using SchoolProject.Core.Features.User.Queries.DTOs;
 using SchoolProject.Data.Entites.Identity;
 using System;
 using System.Collections.Generic;
@@ -13,6 +14,8 @@ namespace SchoolProject.Core.Mapping
     {
         public IdentityProfile() { 
            CreateMap<AddUser,AppUser>();
+            CreateMap<AppUser, UsersListPaginationDTO>();
+            CreateMap<AppUser,UserDTO>();
         }
     }
 }
