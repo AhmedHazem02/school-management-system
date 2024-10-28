@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SchoolProject.API.Base;
+using SchoolProject.Core.Features.Students.Commands.Models;
 using SchoolProject.Core.Features.User.Command.Models;
 using SchoolProject.Core.Features.User.Queries.Models;
 using SchoolProject.Data.MetaDataApp;
@@ -27,6 +28,12 @@ namespace SchoolProject.API.Controllers
         public async Task<IActionResult> GetUserByUserName([FromRoute]string UserName)
         {
             return Ok(await _mediator.Send(new GetUserByUserName(UserName)));
+        }
+
+        [HttpPut(Router.AppUserRouting.Edit)]
+        public async Task<IActionResult> EditStudent([FromBody] EditUserModel User)
+        {
+            return NewResult(await _mediator.Send(User));
         }
     }
 }

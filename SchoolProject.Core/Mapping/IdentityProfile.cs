@@ -13,9 +13,10 @@ namespace SchoolProject.Core.Mapping
     public class IdentityProfile:Profile
     {
         public IdentityProfile() { 
-           CreateMap<AddUser,AppUser>();
+           CreateMap<AddUser,AppUser>().ReverseMap();
             CreateMap<AppUser, UsersListPaginationDTO>();
-            CreateMap<AppUser,UserDTO>();
+            CreateMap<AppUser,UserDTO>().ReverseMap();
+            CreateMap<AppUser,EditUserModel>().ReverseMap();
         }
     }
 }
