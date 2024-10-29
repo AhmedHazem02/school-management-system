@@ -17,8 +17,10 @@ namespace SchoolProject.Core.Features.User.Command.Handlers
 {
     public class UserCommandHandler : ResponseHandler,
                                           IRequestHandler<AddUser, Response<string>>,
-                                          IRequestHandler<EditUserModel, Response<string>>
-{
+                                          IRequestHandler<EditUserModel, Response<string>>,
+                                          IRequestHandler<DeleteUserModel, Response<string>>,
+                                          IRequestHandler<ChangePasswordModel, Response<string>>
+    {
         private readonly IMapper _mapper;
         private readonly UserManager<AppUser> _userManager;
 
@@ -60,6 +62,28 @@ namespace SchoolProject.Core.Features.User.Command.Handlers
             var EditUser = await _userManager.UpdateAsync(UserMapping);
             if (!EditUser.Succeeded) return BadRequest<string>("Can Not Edit In This User");
             return Success("");
+        }
+
+        public async Task<Response<string>> Handle(DeleteUserModel request, CancellationToken cancellationToken)
+        {
+            // If Exist
+            var User = await _userManager.FindByNameAsync(request.UserName);
+            if (User == null) return NotFound<string>("The User Not Found");
+
+            var res=await _userManager.DeleteAsync(User);
+
+            if (res.Succeeded) return Success<string>($"Delete UserName : [{request.UserName}] Is Done");
+            return BadRequest<string>("Fail");
+        }
+
+        public async Task<Response<string>> Handle(ChangePasswordModel request, CancellationToken cancellationToken)
+        {
+            var User = await _userManager.FindByIdAsync(request.Id);
+            if (User == null) return NotFound<string>("The User Not Found");
+
+            var res=await _userManager.ChangePasswordAsync(User,request.OldPassword,request.NewPassword);
+            if (res.Succeeded) return Success<string>($"Change Password Is Done");
+            return BadRequest<string>("Fail");
         }
     }
 }

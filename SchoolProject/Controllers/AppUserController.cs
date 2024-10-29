@@ -31,9 +31,24 @@ namespace SchoolProject.API.Controllers
         }
 
         [HttpPut(Router.AppUserRouting.Edit)]
-        public async Task<IActionResult> EditStudent([FromBody] EditUserModel User)
+        public async Task<IActionResult> EditUser([FromBody] EditUserModel User)
         {
             return NewResult(await _mediator.Send(User));
         }
+
+        [HttpDelete(Router.AppUserRouting.DeleteUser)]
+        public async Task<IActionResult> DeleteUser([FromRoute] string UserName)
+        {
+            return NewResult(await _mediator.Send(new DeleteUserModel(UserName)));
+        }
+
+
+        [HttpPut(Router.AppUserRouting.ChangePassword)]
+        public async Task<IActionResult> ChangeUserPassword([FromBody] ChangePasswordModel Model)
+        {
+            return NewResult(await _mediator.Send(Model));
+        }
+
+
     }
 }

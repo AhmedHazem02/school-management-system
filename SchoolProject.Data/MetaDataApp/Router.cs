@@ -34,6 +34,9 @@ namespace SchoolProject.Data.MetaDataApp
             public const string List = perfix + "/List";
             public const string GetUserByUserName = perfix + "/{UserName}";
             public const string Edit = perfix + "/edit";
+            public const string DeleteUser = perfix + "/{UserName}";
+            public const string ChangePassword = perfix + "/changepassword";
+
         }
 
     }
