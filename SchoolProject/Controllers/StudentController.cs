@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SchoolProject.API.Base;
@@ -25,12 +26,14 @@ namespace SchoolProject.API.Controllers
             return Ok(await _mediator.Send(pagination));
         }
 
+        [Authorize]
         [HttpGet(Router.StudentRouting.GetById)]
         public async Task<IActionResult> GetStudentById([FromRoute] int Id)
         {
             return NewResult(await _mediator.Send(new GetStudentByIdQuery(Id)));
         }
 
+        [Authorize]
         [HttpPost(Router.StudentRouting.Create)]
         public async Task<IActionResult> CreateNewStudent([FromBody] AddStudentCommand student)
         {

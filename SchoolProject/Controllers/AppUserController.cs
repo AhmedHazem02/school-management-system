@@ -12,7 +12,7 @@ namespace SchoolProject.API.Controllers
     [ApiController]
     public class AppUserController : AppBaseController
     {
-        [HttpPost(Router.StudentRouting.Create)]
+        [HttpPost(Router.AppUserRouting.Create)]
         public async Task<IActionResult> CreateNewUser([FromBody] AddUser User)
         {
             return NewResult(await _mediator.Send(User));
