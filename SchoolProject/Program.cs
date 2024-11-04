@@ -43,7 +43,7 @@ namespace SchoolProject
             builder.Services.AddModuleInfranstructure_ID()
                                   .Addservices_DI()
                                   .AddCore_DI()
-                                  .AddServiceRegisteration();
+                                  .AddServiceRegisteration(builder.Configuration);
             #endregion
 
             var app = builder.Build();
@@ -59,7 +59,8 @@ namespace SchoolProject
             }
             app.UseMiddleware<ErrorHandlerMiddleware>();
             app.UseHttpsRedirection();
-
+             
+            app.UseAuthentication();
             app.UseAuthorization();
 
 

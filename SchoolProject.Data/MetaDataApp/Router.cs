@@ -39,5 +39,13 @@ namespace SchoolProject.Data.MetaDataApp
 
         }
 
+        public static class Authentication
+        {
+            public const string perfix = Rule + "authentication";
+            public const string SignIn = perfix + "/sign_in";
+           
+
+        }
+
     }
 }
