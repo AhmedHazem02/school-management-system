@@ -47,12 +47,5 @@ namespace SchoolProject.Data.MetaDataApp
 
         }
 
-        public static class Authorization
-        {
-            public const string perfix = Rule + "authorization";
-            public const string Create = perfix + "/create";
-
-        }
-
     }
 }

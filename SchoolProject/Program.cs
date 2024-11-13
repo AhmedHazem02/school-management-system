@@ -10,13 +10,9 @@ using SchoolProject.infransturture.Identity;
 using Microsoft.AspNetCore.Identity;
 using SchoolProject.Data.Entites.Identity;
 using SchoolProject.API.Extention;
+using SchoolProject.infransturture.DataSeeding;
+using System.Data;
 
-namespace SchoolProject
-{
-    public class Program
-    {
-        public static void Main(string[] args)
-        {
             var builder = WebApplication.CreateBuilder(args);
 
             builder.Services.AddControllers();
@@ -35,10 +31,6 @@ namespace SchoolProject
                 option.UseSqlServer(builder.Configuration.GetConnectionString("IdentityConnection"));
             });
             #endregion
-
-
-
-
             #region Dependecy Injection
             builder.Services.AddModuleInfranstructure_ID()
                                   .Addservices_DI()
@@ -48,8 +40,17 @@ namespace SchoolProject
 
             var app = builder.Build();
 
+            #region Dataseeding
+            using (var scope = app.Services.CreateScope())
+            {
+                var userManager = scope.ServiceProvider.GetRequiredService<UserManager<AppUser>>();
+                var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+                await RoleSeeder.SeedAsync(roleManager);
+                await UserSeeder.SeedAsync(userManager);
+            }
 
-           
+            #endregion
+
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
@@ -67,6 +68,3 @@ namespace SchoolProject
             app.MapControllers();
 
             app.Run();
-        }
-    }
-}
