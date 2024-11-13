@@ -14,7 +14,6 @@ namespace SchoolProject.API.Controllers
     //[Authorize(Roles ="Admin")]
     public class AuthorizationController : AppBaseController
     {
-       
         [HttpPost(Router.Authorization.Create)]
         public async Task<IActionResult> CreateNewRole([FromForm] AddRoleModelCommand command)
         {

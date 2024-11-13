@@ -47,18 +47,5 @@ namespace SchoolProject.Data.MetaDataApp
 
         }
 
-        public static class Authorization
-        {
-            public const string perfix = Rule + "authorization";
-            public const string Create = perfix + "/create";
-            public const string Edit = perfix + "/edit";
-            public const string Delete = perfix + "/delete/{RoleId}";
-            public const string GetRoleById = perfix + "/GetRoleById/{RoleId}";
-            public const string GetListOfRole = perfix + "/GetListOfRole";
-            public const string GetManageUserRole = perfix + "/GetManageUserRole/{UserId}";
-            public const string UpdateUserRole = perfix + "/UpdateUserRole";
-
-        }
-
     }
 }
