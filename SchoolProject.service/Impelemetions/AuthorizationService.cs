@@ -20,6 +20,9 @@ namespace SchoolProject.service.Impelemetions
         private readonly UserManager<AppUser> _userManager;
         private readonly AppDbContext _dbContext;
 
+        public AuthorizationService(RoleManager<IdentityRole>roleManager
+                                   ,UserManager<AppUser>userManager
+                                   ,AppDbContext dbContext)
         {
              _roleManager = roleManager;
              _userManager = userManager;
