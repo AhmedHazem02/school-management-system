@@ -30,6 +30,7 @@
     <Folder Include="Features\Department\Commands\Handlers\" />
     <Folder Include="Features\Department\Commands\Models\" />
     <Folder Include="Features\Department\Commands\Validators\" />
+    <Folder Include="Features\Email\Query\" />
   </ItemGroup>
 
 </Project>
