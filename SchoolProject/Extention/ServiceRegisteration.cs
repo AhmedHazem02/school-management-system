@@ -39,9 +39,14 @@ namespace SchoolProject.API.Extention
 
             //JWT Authentication
             var jwtSettings = new JwtSettings();
+            var emailSettings = new EmailSetting();
             _configuration.GetSection(nameof(jwtSettings)).Bind(jwtSettings);
+            _configuration.GetSection(nameof(emailSettings)).Bind(emailSettings);
             services.AddSingleton(jwtSettings);
-             
+            services.AddSingleton(emailSettings);
+
+
+
 
             services.AddAuthentication(x =>
             {
