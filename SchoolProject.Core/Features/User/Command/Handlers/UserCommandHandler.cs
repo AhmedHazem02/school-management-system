@@ -1,12 +1,14 @@
 ﻿using AutoMapper;
 using Azure.Core;
 using MediatR;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using SchoolProject.Core.Bases;
 using SchoolProject.Core.Features.Students.Commands.Models;
 using SchoolProject.Core.Features.User.Command.Models;
 using SchoolProject.Core.Features.User.Queries.DTOs;
 using SchoolProject.Data.Entites.Identity;
+using SchoolProject.service.Abstracts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,33 +25,26 @@ namespace SchoolProject.Core.Features.User.Command.Handlers
     {
         private readonly IMapper _mapper;
         private readonly UserManager<AppUser> _userManager;
+        private readonly IUserAppServices _userAppServices;
 
-        public UserCommandHandler(IMapper mapper,UserManager<AppUser> userManager)
+        public UserCommandHandler(IMapper mapper
+                                 ,UserManager<AppUser> userManager
+                                 ,IUserAppServices userAppServices)
+                                 
         {
             _mapper = mapper;
             _userManager = userManager;
+            _userAppServices = userAppServices;
         }
 
         public async Task<Response<string>> Handle(AddUser request, CancellationToken cancellationToken)
         {
-            // if Email Exist
-            if (await _userManager.FindByEmailAsync(request.Email)!= null)
-                return BadRequest<string>("This Email Is Used");
-            // if User Name Is Exist
-            if (await _userManager.FindByNameAsync(request.UserName)!= null) 
-                return BadRequest<string>("This UserName Is Used");
-            // Mapping
             var UserMapping = _mapper.Map<AppUser>(request);
-
-            // Create
-            var Create=await _userManager.CreateAsync(UserMapping,request.Password);
-
-            if (!Create.Succeeded) return BadRequest<string>(Create.Errors.FirstOrDefault().Description);
-
-            await _userManager.AddToRoleAsync(UserMapping, "User");
-
-            return Created("");
-
+            var CreateRes = await _userAppServices.CreateUser(UserMapping, request.Password);
+            if (CreateRes == "This Email Is Used") return BadRequest<string>(CreateRes);
+            else if (CreateRes == "This UserName Is Used") BadRequest<string>(CreateRes);
+            else if (CreateRes == "Success") return Success<string>("");
+            return BadRequest<string>(CreateRes); 
         }
 
         public async Task<Response<string>> Handle(EditUserModel request, CancellationToken cancellationToken)

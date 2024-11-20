@@ -19,5 +19,10 @@ namespace SchoolProject.infransturture.Repository.Impelement
         {
             _instructor = dbContext.Set<Instructor>();
         }
+
+        public async Task<List<Instructor>> GetAllInstructorAsync()
+        {
+            return await _instructor.ToListAsync();
+        }
     }
 }

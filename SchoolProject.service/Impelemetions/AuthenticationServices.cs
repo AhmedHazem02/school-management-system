@@ -85,5 +85,13 @@ namespace SchoolProject.service.Impelemetions
             return claims;
         }
 
+        public async Task<string> ConfirmeEmail(string UserId, string Code)
+        {
+            if (UserId == null || Code == null) return "Invalid";
+            var User=await _userManager.FindByIdAsync(UserId);
+            var Res = await _userManager.ConfirmEmailAsync(User, Code);
+            if (Res.Succeeded) return "Success";
+            return "Faild";
+        }
     }
 }

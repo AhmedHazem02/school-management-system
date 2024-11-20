@@ -12,7 +12,7 @@ namespace SchoolProject.service.Abstracts
     public interface IAuthenticationServices
     {
         public Task<JwtAuthResult> GetJWTToken(AppUser user);
-
+        public Task<string> ConfirmeEmail(string UserId,string Code);
 
     }
 }
