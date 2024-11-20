@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using SchoolProject.Core.Features.Department.Commands.Models;
 using SchoolProject.Core.Features.Department.Query.DTOs;
 using SchoolProject.Data.Entites;
 
@@ -23,6 +24,14 @@ namespace SchoolProject.Core.Mapping
             CreateMap<Instructor, InstructorResponse>()
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name));
 
+            CreateMap<EditDepartmentModel, Department>()
+                .ForMember(dest => dest.DName, opt => opt.MapFrom(src => src.Name))
+                .ForMember(dest => dest.id, opt => opt.MapFrom(src => src.DeptId))
+                .ReverseMap();
+
+            CreateMap<AddDepartmentModel, Department>()
+               .ForMember(dest => dest.DName, opt => opt.MapFrom(src => src.Name))
+               .ReverseMap();
 
         }
     }

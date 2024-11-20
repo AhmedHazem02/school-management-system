@@ -33,6 +33,7 @@ namespace SchoolProject.Core.Features.Authentication.Commands.Handlers
             if (IfUserExist == null) return BadRequest<JwtAuthResult>("The User Is Not Found");
 
             var ResSignIn=   _signInManager.CheckPasswordSignInAsync(IfUserExist, request.Password,false);
+            if(!IfUserExist.EmailConfirmed) return BadRequest<JwtAuthResult>("The Email Not Confirme");
             if (!ResSignIn.IsCompletedSuccessfully) return BadRequest<JwtAuthResult>("Your Password Is Not Correct");
 
             // Generate Token

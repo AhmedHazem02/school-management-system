@@ -25,6 +25,8 @@ namespace SchoolProject.Data.MetaDataApp
         public static class DepartmentRouting {
             public const string perfix = Rule + "Department";
             public const string GetById = perfix + "/{Id}";
+            public const string Edit = perfix + "/edit";
+            public const string Create = perfix + "/create";
         }
 
         public static class AppUserRouting
@@ -43,7 +45,17 @@ namespace SchoolProject.Data.MetaDataApp
         {
             public const string perfix = Rule + "authentication";
             public const string SignIn = perfix + "/sign_in";
-           
+            public const string ConfirmeEmail = perfix + "/ConfirmeEmail";
+
+
+        }
+
+        public static class Instructor
+        {
+            public const string perfix = Rule + "instructor";
+            public const string Create = perfix + "/create";
+            public const string GetAllInstructor = perfix + "/allInstructor";
+
 
         }
 

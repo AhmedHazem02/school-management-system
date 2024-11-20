@@ -23,13 +23,8 @@
 
   <ItemGroup>
     <Folder Include="Features\Authentication\Commands\Validation\" />
-    <Folder Include="Features\Authentication\Queries\Handlers\" />
-    <Folder Include="Features\Authentication\Queries\Models\" />
     <Folder Include="Features\Authentication\Queries\DTOs\" />
     <Folder Include="Features\Authorization\Queries\Validations\" />
-    <Folder Include="Features\Department\Commands\Handlers\" />
-    <Folder Include="Features\Department\Commands\Models\" />
-    <Folder Include="Features\Department\Commands\Validators\" />
   </ItemGroup>
 
 </Project>

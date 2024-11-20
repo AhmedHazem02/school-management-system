@@ -10,6 +10,6 @@ namespace SchoolProject.infransturture.Repository.Abstruct
 {
     public interface IInstructorRepository:IGenericRepository<Instructor>
     {
-
+        public Task<List<Instructor>> GetAllInstructorAsync(); 
     }
 }
