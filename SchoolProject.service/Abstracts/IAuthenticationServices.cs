@@ -13,6 +13,10 @@ namespace SchoolProject.service.Abstracts
     {
         public Task<JwtAuthResult> GetJWTToken(AppUser user);
         public Task<string> ConfirmeEmail(string UserId,string Code);
+        public Task<string> ConfirmePassword(string Email);
+        public Task<string> ConfirmeResetPassword(string Email, string Code);
+        public Task<string> ResetPassword(string Email,string Password);
+
 
     }
 }

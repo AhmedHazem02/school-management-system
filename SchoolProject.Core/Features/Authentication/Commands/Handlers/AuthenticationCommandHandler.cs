@@ -11,7 +11,9 @@ using SchoolProject.service.Abstracts;
 namespace SchoolProject.Core.Features.Authentication.Commands.Handlers
 {
     public class AuthenticationCommandHandler : ResponseHandler,
-                                          IRequestHandler<SignInCommandModel, Response<JwtAuthResult>>
+                                          IRequestHandler<SignInCommandModel, Response<JwtAuthResult>>,
+                                          IRequestHandler<ConfirmeResetPasswordModel, Response<string>>,
+                                          IRequestHandler<ResetPasswordModel, Response<string>>
     {
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
@@ -39,6 +41,23 @@ namespace SchoolProject.Core.Features.Authentication.Commands.Handlers
             // Generate Token
             var Res =  await _authenticationServices.GetJWTToken(IfUserExist);
             return Success(Res);
+        }
+
+        public async Task<Response<string>> Handle(ConfirmeResetPasswordModel request, CancellationToken cancellationToken)
+        {
+            var Res = await _authenticationServices.ConfirmePassword(request.Email);
+            if (Res == "Not Found") return NotFound<string>(Res);
+            else if(Res == "Faild To Update User")return BadRequest<string>(Res);
+            else if(Res=="Faild")return BadRequest<string>(Res);
+            else return Success(Res);
+        }
+
+        public async Task<Response<string>> Handle(ResetPasswordModel request, CancellationToken cancellationToken)
+        {
+            var Res = await _authenticationServices.ResetPassword(request.Email, request.Password);
+            if (Res == "Not Found") return NotFound<string>(Res);
+            else if (Res == "Faild") return BadRequest<string>(Res);
+            else return Success(Res);
         }
     }
 }

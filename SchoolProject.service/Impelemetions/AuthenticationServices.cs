@@ -1,9 +1,12 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using EntityFrameworkCore.EncryptColumn.Interfaces;
+using EntityFrameworkCore.EncryptColumn.Util;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Identity.Client;
 using Microsoft.IdentityModel.Tokens;
 using SchoolProject.Data.Entites.Identity;
 using SchoolProject.Data.Helper;
 using SchoolProject.Data.Helpers;
+using SchoolProject.infransturture.Data;
 using SchoolProject.service.Abstracts;
 using System;
 using System.Collections.Concurrent;
@@ -15,6 +18,7 @@ using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using static Org.BouncyCastle.Crypto.Engines.SM2Engine;
 
 namespace SchoolProject.service.Impelemetions
 {
@@ -22,11 +26,19 @@ namespace SchoolProject.service.Impelemetions
     {
         private readonly JwtSettings _jwtSettings;
         private readonly UserManager<AppUser> _userManager;
+        private readonly IEmailServices _emailServices;
+        private readonly AppDbContext _appDbContext;
+        private readonly IEncryptionProvider _encryptionProvider;
         private readonly ConcurrentDictionary<string, RefreshToken> _UserRefreashToken;
-        public AuthenticationServices(JwtSettings jwtSettings,UserManager<AppUser>userManager) {
+        
+        public AuthenticationServices(JwtSettings jwtSettings,UserManager<AppUser>userManager
+                                      ,IEmailServices emailServices,AppDbContext appDbContext) {
             _jwtSettings = jwtSettings;
             _userManager = userManager;
+            _emailServices = emailServices;
+            _appDbContext = appDbContext;
             _UserRefreashToken = new ConcurrentDictionary<string, RefreshToken>();
+            _encryptionProvider = new GenerateEncryptionProvider("8487e014e5e244f2ab85af391ea165aa");
         }
 
         public async Task<JwtAuthResult> GetJWTToken(AppUser user)
@@ -92,6 +104,59 @@ namespace SchoolProject.service.Impelemetions
             var Res = await _userManager.ConfirmEmailAsync(User, Code);
             if (Res.Succeeded) return "Success";
             return "Faild";
+        }
+
+        public async Task<string> ConfirmePassword(string Email)
+        {
+            var Trans = await _appDbContext.Database.BeginTransactionAsync();
+            try
+            {
+                var User = await _userManager.FindByEmailAsync(Email);
+                if (User == null) return "Not Found";
+                Random random = new Random();
+                string RandomNumber = random.Next(0, 100000).ToString("D6");
+                User.Code = RandomNumber;
+                var UpdateUser = await _userManager.UpdateAsync(User);
+                if (!UpdateUser.Succeeded) return "Faild To Update User";
+                var Message = "Code To Reset Password : " + User.Code;
+                await _emailServices.SendEmailAsync(Email, Message);
+                await Trans.CommitAsync();
+                return "Success";
+            }
+            catch (Exception ex)
+            {
+                await Trans.RollbackAsync();
+                return "Faild";
+            }
+        }
+
+        public async Task<string> ConfirmeResetPassword(string Email, string Code)
+        {
+
+            var User = await _userManager.FindByEmailAsync(Email);
+            if (User == null) return "Not Found";
+            var UserCode=_encryptionProvider.Decrypt(User.Code);
+            if (UserCode == Code) return "Success";
+            return "Faild";
+        }
+
+        public async Task<string> ResetPassword(string Email, string Password)
+        {
+            var Trans = await _appDbContext.Database.BeginTransactionAsync();
+            try
+            {
+                var User = await _userManager.FindByEmailAsync(Email);
+                if (User == null) return "Not Found";
+                await _userManager.RemovePasswordAsync(User);
+                await _userManager.AddPasswordAsync(User, Password);
+                await Trans.CommitAsync();
+                return "Success";
+            }
+            catch (Exception ex)
+            {
+                await Trans.RollbackAsync();
+                return "Faild";
+            }
         }
     }
 }

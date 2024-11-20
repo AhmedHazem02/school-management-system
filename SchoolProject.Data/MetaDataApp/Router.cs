@@ -46,8 +46,9 @@ namespace SchoolProject.Data.MetaDataApp
             public const string perfix = Rule + "authentication";
             public const string SignIn = perfix + "/sign_in";
             public const string ConfirmeEmail = perfix + "/ConfirmeEmail";
-
-
+            public const string SendRestPassword = perfix + "/SendRestPassword";
+            public const string ConfirmeResetPassword = perfix + "/ConfirmeResetPassword";
+            public const string ResetPassword = perfix + "/ResetPassword";
         }
 
         public static class Instructor

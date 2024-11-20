@@ -13,7 +13,10 @@ using System.Threading.Tasks;
 namespace SchoolProject.Core.Features.Authentication.Queries.Handlers
 {
     public class AuthenticationQueryHandler : ResponseHandler,
-                                          IRequestHandler<ConfirmEmailQueryModel, Response<string>>
+                                       IRequestHandler<ConfirmEmailQueryModel, Response<string>>,
+                                       IRequestHandler<ConfirmeResetPasswordQueryModel, Response<string>>
+                                      
+
     {
         private readonly IAuthenticationServices _authenticationServices;
 
@@ -23,11 +26,21 @@ namespace SchoolProject.Core.Features.Authentication.Queries.Handlers
         }
         public async Task<Response<string>> Handle(ConfirmEmailQueryModel request, CancellationToken cancellationToken)
         {
-             var Res= await _authenticationServices.ConfirmeEmail(request.UserId,request.Code);
+            var Res= await _authenticationServices.ConfirmeEmail(request.UserId,request.Code);
             if (Res == "Invalid") return BadRequest<string>(Res);
             else if (Res == "Success") return Success("");
             else return BadRequest<string>();
 
         }
+
+        public async Task<Response<string>> Handle(ConfirmeResetPasswordQueryModel request, CancellationToken cancellationToken)
+        {
+            var Res = await _authenticationServices.ConfirmeResetPassword(request.Email,request.Code);
+            if (Res == "Not Found") return NotFound<string>(Res);
+            else if (Res == "Faild") return BadRequest<string>(Res);
+            else return Success(Res);
+        }
+
+       
     }
 }

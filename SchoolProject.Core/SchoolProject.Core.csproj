@@ -22,7 +22,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Features\Authentication\Commands\Validation\" />
     <Folder Include="Features\Authentication\Queries\DTOs\" />
     <Folder Include="Features\Authorization\Queries\Validations\" />
   </ItemGroup>

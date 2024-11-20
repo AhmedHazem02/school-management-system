@@ -18,11 +18,28 @@ namespace SchoolProject.API.Controllers
             return NewResult(await _mediator.Send(User)); 
         }
 
-        [HttpPost(Router.Authentication.ConfirmeEmail)]
+        [HttpGet(Router.Authentication.ConfirmeEmail)]
         public async Task<IActionResult> ConfirmeEmail([FromQuery]ConfirmEmailQueryModel Model)
         {
             return NewResult(await _mediator.Send(Model));
         }
 
+        [HttpPost(Router.Authentication.SendRestPassword)]
+        public async Task<IActionResult> ConfirmePassword([FromQuery] ConfirmeResetPasswordModel Model)
+        {
+            return NewResult(await _mediator.Send(Model));
+        }
+
+        [HttpGet(Router.Authentication.ConfirmeResetPassword)]
+        public async Task<IActionResult> ResetPassword([FromForm] ConfirmeResetPasswordQueryModel Model)
+        {
+            return NewResult(await _mediator.Send(Model));
+        }
+
+        [HttpPost(Router.Authentication.ResetPassword)]
+        public async Task<IActionResult> ResetPassword([FromQuery] ResetPasswordModel Model)
+        {
+            return NewResult(await _mediator.Send(Model));
+        }
     }
 }

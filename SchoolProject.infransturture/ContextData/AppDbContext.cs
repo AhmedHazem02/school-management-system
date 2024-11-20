@@ -1,15 +1,14 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SchoolProject.Data.Entites;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using EntityFrameworkCore.EncryptColumn.Interfaces;
+using EntityFrameworkCore.EncryptColumn.Util;
+using EntityFrameworkCore.EncryptColumn.Extension;
 
 namespace SchoolProject.infransturture.Data
 {
     public class AppDbContext:DbContext
     {
+        private readonly IEncryptionProvider _encryptionProvider;
         public AppDbContext()
         {
 
@@ -17,7 +16,7 @@ namespace SchoolProject.infransturture.Data
 
         public AppDbContext(DbContextOptions<AppDbContext>options):base(options) 
         {
-
+            _encryptionProvider=new GenerateEncryptionProvider("8487e014e5e244f2ab85af391ea165aa");
         }
 
         public DbSet<Student> Students { get; set; }
@@ -53,6 +52,7 @@ namespace SchoolProject.infransturture.Data
 
 
             base.OnModelCreating(modelBuilder);
+            modelBuilder.UseEncryption(_encryptionProvider); 
         }
     }
 }
