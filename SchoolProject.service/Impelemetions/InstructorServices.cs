@@ -31,6 +31,11 @@ namespace SchoolProject.service.Impelemetions
              
         }
 
+        public async Task<Instructor> GetInstructorById(int Ins_Id)
+        {
+            return await _instructorRepository.GetByIdAsync(Ins_Id);
+        }
+
         public async Task<List<Instructor>> GetListOfInstructor()
         {
             return await _instructorRepository.GetAllInstructorAsync();

@@ -13,7 +13,8 @@ using System.Threading.Tasks;
 namespace SchoolProject.Core.Features.Instructors.Queries.Handlers
 {
     public class InstructorQueryHandler : ResponseHandler,
-                                          IRequestHandler<GetListOfInstructorModel, Response<List<InstructorDto>>>
+                                          IRequestHandler<GetListOfInstructorModel, Response<List<InstructorDto>>>,
+                                          IRequestHandler<GetInstructorByIdModel, Response<InstructorDto>>
     {
         private readonly IInstructorServices _instructorServices;
         private readonly IMapper _mapper;
@@ -29,6 +30,14 @@ namespace SchoolProject.Core.Features.Instructors.Queries.Handlers
             //mapping 
             var InstructorsMapping=_mapper.Map<List<InstructorDto>>(instructors);   
             return Success(InstructorsMapping);
+        }
+
+        public async Task<Response<InstructorDto>> Handle(GetInstructorByIdModel request, CancellationToken cancellationToken)
+        {
+            var Instructor = await _instructorServices.GetInstructorById(request.Id);
+            //mapping
+            var InstructorMapping = _mapper.Map<InstructorDto>(Instructor);
+            return Success(InstructorMapping);
         }
     }
 }

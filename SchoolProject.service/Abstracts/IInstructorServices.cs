@@ -12,5 +12,6 @@ namespace SchoolProject.service.Abstracts
     {
         public Task<string> AddInstructorAsync(Instructor instructor);
         public Task<List<Instructor>>GetListOfInstructor();
+        public Task<Instructor>GetInstructorById(int Ins_Id);
     }
 }

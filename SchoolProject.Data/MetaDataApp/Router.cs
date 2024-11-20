@@ -55,7 +55,7 @@ namespace SchoolProject.Data.MetaDataApp
             public const string perfix = Rule + "instructor";
             public const string Create = perfix + "/create";
             public const string GetAllInstructor = perfix + "/allInstructor";
-
+            public const string GetById = perfix + "/{Id}";
 
         }
 

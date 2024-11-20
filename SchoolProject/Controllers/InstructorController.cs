@@ -23,5 +23,11 @@ namespace SchoolProject.API.Controllers
         {
             return NewResult(await _mediator.Send(new GetListOfInstructorModel()));
         }
+
+        [HttpGet(Router.Instructor.GetById)]
+        public async Task<IActionResult> GetInstructorById([FromRoute] int Id)
+        {
+            return NewResult(await _mediator.Send(new GetInstructorByIdModel(Id)));
+        }
     }
 }
