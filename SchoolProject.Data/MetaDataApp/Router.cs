@@ -77,6 +77,16 @@ namespace SchoolProject.Data.MetaDataApp
             public const string perfix = Rule + "Email";
             public const string SendEmail = perfix + "/SendEmail";
         }
+        public static class Subject
+        {
+            public const string perfix = Rule + "Subject";
+            public const string AddSubject = perfix + "/AddSubject";
+            public const string DeleteSubject = perfix + "/DeleteSubject/{id}";
+            public const string EditSubject = perfix + "/EditSubject";
+            public const string GetSubjects = perfix + "/GetSubjects";
+            public const string GetSubjectById = perfix + "/GetSubjectById/{id}";
+
+        }
 
     }
 }

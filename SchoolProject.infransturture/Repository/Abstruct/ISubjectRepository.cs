@@ -8,7 +8,8 @@ using System.Threading.Tasks;
 
 namespace SchoolProject.infransturture.Repository.Abstruct
 {
-    internal interface ISubjectRepository : IGenericRepository<Subject>
+    public interface ISubjectRepository : IGenericRepository<Subject>
     {
+        public Task<IReadOnlyList<Subject>> GetSubjects();
     }
 }

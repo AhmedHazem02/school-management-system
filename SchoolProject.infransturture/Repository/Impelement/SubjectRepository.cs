@@ -19,5 +19,10 @@ namespace SchoolProject.infransturture.Repository.Impelement
         {
             _subject = dbContext.Set<Subject>();
         }
+
+        public async Task<IReadOnlyList<Subject>> GetSubjects()
+        {
+            return await _subject.ToListAsync();
+        }
     }
 }
